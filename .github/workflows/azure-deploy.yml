@@ -7,6 +7,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: SP14/frontend
     
     permissions:
       contents: read
@@ -17,13 +20,9 @@ jobs:
     
     - name: Debug directory structure
       run: |
+        echo "Current directory:"
         pwd
-        ls -la
-        
-    - name: Navigate to frontend directory
-      run: |
-        cd SP14/frontend
-        pwd
+        echo "Directory contents:"
         ls -la
     
     - name: Set up Docker Buildx
@@ -39,8 +38,8 @@ jobs:
     - name: Build and push container image
       uses: docker/build-push-action@v4
       with:
-        context: SP14/frontend
-        file: SP14/frontend/Dockerfile.production
+        context: .
+        file: ./Dockerfile.production
         push: true
         tags: ghcr.io/${{ github.repository_owner }}/pos-frontend:${{ github.sha }}
         cache-from: type=gha
