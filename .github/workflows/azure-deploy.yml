@@ -30,14 +30,63 @@ jobs:
       env:
         NEXT_PUBLIC_API_URL: 'https://tech0-gen8-step4-pos-app-78.azurewebsites.net'
         NODE_ENV: 'production'
-
-    - name: Prepare for deployment
+        
+    - name: Create web.config
       working-directory: SP14/frontend
       run: |
-        cp package.json .next/
-        cp package-lock.json .next/
-        cd .next
-        npm install --production
+        echo '<?xml version="1.0" encoding="utf-8"?>
+        <configuration>
+          <system.webServer>
+            <handlers>
+              <add name="iisnode" path="server.js" verb="*" modules="iisnode"/>
+            </handlers>
+            <rewrite>
+              <rules>
+                <rule name="NodeInspector" patternSyntax="ECMAScript" stopProcessing="true">
+                  <match url="^server.js\/debug[\/]?" />
+                </rule>
+                <rule name="StaticContent">
+                  <action type="Rewrite" url="public{REQUEST_URI}"/>
+                </rule>
+                <rule name="DynamicContent">
+                  <conditions>
+                    <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="True"/>
+                  </conditions>
+                  <action type="Rewrite" url="server.js"/>
+                </rule>
+              </rules>
+            </rewrite>
+            <security>
+              <requestFiltering>
+                <hiddenSegments>
+                  <remove segment="bin"/>
+                </hiddenSegments>
+              </requestFiltering>
+            </security>
+            <httpErrors existingResponse="PassThrough" />
+          </system.webServer>
+        </configuration>' > .next/web.config
+
+    - name: Create server.js
+      working-directory: SP14/frontend
+      run: |
+        echo 'const { createServer } = require("http");
+        const { parse } = require("url");
+        const next = require("next");
+        
+        const dev = process.env.NODE_ENV !== "production";
+        const app = next({ dev });
+        const handle = app.getRequestHandler();
+        
+        app.prepare().then(() => {
+          createServer((req, res) => {
+            const parsedUrl = parse(req.url, true);
+            handle(req, res, parsedUrl);
+          }).listen(process.env.PORT || 3000, (err) => {
+            if (err) throw err;
+            console.log(`> Ready on http://localhost:${process.env.PORT || 3000}`);
+          });
+        });' > .next/server.js
         
     - name: Deploy to Azure
       uses: azure/webapps-deploy@v2
