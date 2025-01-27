@@ -1,0 +1,38 @@
+FROM node:20-slim AS builder
+
+WORKDIR /app
+
+# 依存関係ファイルをコピー
+COPY package*.json ./
+
+# 依存関係のインストール
+RUN npm ci
+
+# ソースコードをコピー
+COPY . .
+
+# 本番用ビルド
+ENV NEXT_PUBLIC_API_URL=https://tech0-gen8-step4-pos-app-78.azurewebsites.net
+RUN npm run build
+
+# 本番用イメージ
+FROM node:20-slim
+
+WORKDIR /app
+
+# ビルド成果物と必要なファイルをコピー
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+
+# 環境変数の設定
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV NEXT_PUBLIC_API_URL=https://tech0-gen8-step4-pos-app-78.azurewebsites.net
+
+# ポートの公開
+EXPOSE 3000
+
+# アプリケーションの起動
+CMD ["npm", "start"] 
