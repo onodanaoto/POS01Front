@@ -26,6 +26,7 @@ jobs:
       working-directory: SP14/frontend
       run: |
         npm run build
+        npm run export
       env:
         NEXT_PUBLIC_API_URL: 'https://tech0-gen8-step4-pos-app-78.azurewebsites.net'
         NODE_ENV: 'production'
@@ -35,4 +36,4 @@ jobs:
       with:
         app-name: 'tech0-gen8-step4-pos-app-77'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: SP14/frontend/.next 
+        package: SP14/frontend/out 
