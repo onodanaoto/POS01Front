@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Tech0 POS システム",
+  title: "Tech0 POS システム v1.0",
   description: "Tech0 第8期 POSシステム",
 };
 
