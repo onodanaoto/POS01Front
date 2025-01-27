@@ -7,9 +7,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: SP14/frontend
     
     permissions:
       contents: read
@@ -24,8 +21,8 @@ jobs:
         pwd
         echo "Directory contents:"
         ls -la
-        cd ../..
-        echo "Root directory contents:"
+        echo "Frontend directory contents:"
+        cd SP14/frontend
         ls -la
     
     - name: Set up Docker Buildx
@@ -44,7 +41,9 @@ jobs:
         context: SP14/frontend
         file: SP14/frontend/Dockerfile.production
         push: true
-        tags: ghcr.io/${{ github.repository_owner }}/pos-frontend:${{ github.sha }}
+        tags: |
+          ghcr.io/${{ github.repository_owner }}/pos-frontend:${{ github.sha }}
+          ghcr.io/${{ github.repository_owner }}/pos-frontend:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
         
