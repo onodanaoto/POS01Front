@@ -16,29 +16,32 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
+        cache-dependency-path: SP14/frontend/package-lock.json
         
     - name: Install dependencies
+      working-directory: SP14/frontend
       run: |
-        cd SP14/frontend
         npm install
         
     - name: Build
+      working-directory: SP14/frontend
       run: |
-        cd SP14/frontend
         npm run build
       env:
         NEXT_PUBLIC_API_URL: 'https://tech0-gen8-step4-pos-app-78.azurewebsites.net'
         NODE_ENV: 'production'
 
-    - name: Generate deployment package
+    - name: Prepare for deployment
+      working-directory: SP14/frontend
       run: |
-        cd SP14/frontend
-        zip -r deploy.zip . -x "node_modules/*" "*.git*"
+        cp package.json .next/
+        cp package-lock.json .next/
+        cd .next
+        npm install --production
         
     - name: Deploy to Azure
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'tech0-gen8-step4-pos-app-77'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: SP14/frontend/deploy.zip
-        startup-command: 'cd /home/site/wwwroot && npm install && npm run start' 
+        package: SP14/frontend/.next 
