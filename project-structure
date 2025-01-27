@@ -1,0 +1,16 @@
+g17/
+├── frontend/                 # Next.jsプロジェクト
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
+├── backend/                  # FastAPIプロジェクト
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   └── routers/
+│   ├── requirements.txt
+│   └── README.md
+│
+└── README.md 
