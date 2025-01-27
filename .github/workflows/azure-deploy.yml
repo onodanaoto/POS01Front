@@ -7,9 +7,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: SP14/frontend
     
     steps:
     - uses: actions/checkout@v2
@@ -19,13 +16,14 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
-        cache-dependency-path: SP14/frontend/package-lock.json
         
     - name: Install dependencies
+      working-directory: SP14/frontend
       run: |
         npm install
         
     - name: Build
+      working-directory: SP14/frontend
       run: |
         npm run build
       env:
@@ -37,4 +35,4 @@ jobs:
       with:
         app-name: 'tech0-gen8-step4-pos-app-77'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: SP14/frontend 
+        package: SP14/frontend/.next 
