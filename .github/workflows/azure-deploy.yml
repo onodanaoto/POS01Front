@@ -29,10 +29,16 @@ jobs:
       env:
         NEXT_PUBLIC_API_URL: 'https://tech0-gen8-step4-pos-app-78.azurewebsites.net'
         NODE_ENV: 'production'
+
+    - name: Generate deployment package
+      run: |
+        cd SP14/frontend
+        zip -r deploy.zip . -x "node_modules/*" "*.git*"
         
     - name: Deploy to Azure
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'tech0-gen8-step4-pos-app-77'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: SP14/frontend 
+        package: SP14/frontend/deploy.zip
+        startup-command: 'cd /home/site/wwwroot && npm install && npm run start' 
