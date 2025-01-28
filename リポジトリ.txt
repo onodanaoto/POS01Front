@@ -1,0 +1,23 @@
+GitHubのリポジトリは
+
+Frontend：
+@https://github.com/onodanaoto/POS01Front.git
+
+Backend：
+@https://github.com/onodanaoto/POS01back.git 
+
+DB：
+tech0-gen-8-step4-db-4
+添付のスクショ参照
+
+Frontend:
+tech0-gen8-step4-pos-app-77 
+tech0-gen8-step4-pos-app-77.azurewebsites.net
+
+Backend: tech0-gen8-step4-pos-app-78
+tech0-gen8-step4-pos-app-78.azurewebsites.net
+
+
+
+
+

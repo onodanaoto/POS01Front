@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "POS システム",
-  description: "Tech0 POS システム",
+  title: "Tech0 POS システム v1.0",
+  description: "Tech0 第8期 POSシステム",
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
         <nav className="bg-blue-600 text-white shadow-lg">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <h1 className="text-xl font-bold">POS システム</h1>
+              <h1 className="text-xl font-bold">Tech0 POS システム</h1>
               <div className="flex space-x-4">
                 <a href="/" className="hover:text-blue-200">商品一覧</a>
                 {/* 必要に応じて他のナビゲーションリンクを追加 */}
