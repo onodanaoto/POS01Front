@@ -1,5 +1,6 @@
 name: Deploy Frontend to Azure
 
+# Workflow for deploying frontend to Azure Web App
 on:
   push:
     branches: [ main ]
