@@ -39,11 +39,6 @@ jobs:
           build-args: |
             NEXT_PUBLIC_API_URL=https://tech0-gen8-step4-pos-app-78.azurewebsites.net
       
-      - name: Log in to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
       - name: Deploy to Azure Web App for Containers
         uses: azure/webapps-deploy@v2
         with:
