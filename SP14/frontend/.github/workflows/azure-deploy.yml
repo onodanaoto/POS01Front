@@ -39,22 +39,17 @@ jobs:
           build-args: |
             NEXT_PUBLIC_API_URL=https://tech0-gen8-step4-pos-app-78.azurewebsites.net
       
-      - name: Log in to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
       - name: Deploy to Azure Web App for Containers
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'tech0-gen8-step4-pos-front-77'
+          app-name: 'tech0-gen8-step4-pos-app-77'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: 'ghcr.io/${{ github.repository_owner }}/pos-frontend:${{ github.sha }}'
           
       - name: Azure App Service Settings
         uses: azure/appservice-settings@v1
         with:
-          app-name: 'tech0-gen8-step4-pos-front-77'
+          app-name: 'tech0-gen8-step4-pos-app-77'
           app-settings-json: |
             [
               {
